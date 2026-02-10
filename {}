@@ -1,0 +1,76 @@
+[1] [eval]:1
+[1] setTimeout(() =, 10000)
+[1]             ^
+[1] 
+[1] SyntaxError: Unexpected token ')'
+[1]     at makeContextifyScript (node:internal/vm:185:14)
+[1]     at node:internal/process/execution:107:22
+[1]     at [eval]-wrapper:6:24
+[1]     at runScript (node:internal/process/execution:101:62)
+[1]     at evalScript (node:internal/process/execution:133:3)
+[1]     at node:internal/main/eval_string:51:3
+[1] 
+[1] Node.js v20.20.0
+[1] node -e "setTimeout(() =, 10000)" && node index.js exited with code 1
+[0] 2026-02-10T00:39:03.033+03:00  INFO 21532 --- [Lavalink] [           main] lavalink.server.Launcher                 : Starting Launcher v4.0.8 using Java 25.0.2 with PID 21532 (C:\Users\Qylent\Desktop\YOUTUBE\Müzik Bot\Lavalink.jar started by Qylent in C:\Users\Qylent\Desktop\YOUTUBE\Müzik Bot)
+[0] 2026-02-10T00:39:03.036+03:00  INFO 21532 --- [Lavalink] [           main] lavalink.server.Launcher                 : No active profile set, falling back to 1 default profile: "default"
+[0] 2026-02-10T00:39:04.195+03:00  INFO 21532 --- [Lavalink] [           main] lavalink.server.Launcher                 : Started Launcher in 1.632 seconds (process running for 2.058)
+[0] 2026-02-10T00:39:04.247+03:00  INFO 21532 --- [Lavalink] [           main] lavalink.server.Launcher                 : 
+[0] 
+[0] [32m       .  [31m _                  _ _       _    [32m__ _ _
+[0] [32m      /\\ [31m| | __ ___   ____ _| (_)_ __ | | __[32m\ \ \ \
+[0] [32m     ( ( )[31m| |/ _` \ \ / / _` | | | '_ \| |/ /[32m \ \ \ \
+[0] [32m      \\/ [31m| | (_| |\ V / (_| | | | | | |   < [32m  ) ) ) )
+[0] [32m       '  [31m|_|\__,_| \_/ \__,_|_|_|_| |_|_|\_\[32m / / / /
+[0] [0m    =========================================[32m/_/_/_/[0m
+[0] 
+[0] 	Version:        4.0.8
+[0] 	Build time:     20.09.2024 20:20:10 UTC
+[0] 	Branch          HEAD
+[0] 	Commit:         2946608
+[0] 	Commit time:    20.09.2024 20:17:58 UTC
+[0] 	JVM:            25.0.2
+[0] 	Lavaplayer      2.2.2
+[0] 
+[0] 2026-02-10T00:39:04.254+03:00  INFO 21532 --- [Lavalink] [           main] lavalink.server.Launcher                 : No active profile set, falling back to 1 default profile: "default"
+[0] 2026-02-10T00:39:04.827+03:00  WARN 21532 --- [Lavalink] [           main] io.undertow.websockets.jsr               : UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+[0] 2026-02-10T00:39:04.855+03:00  INFO 21532 --- [Lavalink] [           main] io.undertow.servlet                      : Initializing Spring embedded WebApplicationContext
+[0] 2026-02-10T00:39:04.855+03:00  INFO 21532 --- [Lavalink] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 598 ms
+[0] 2026-02-10T00:39:04.975+03:00  INFO 21532 --- [Lavalink] [           main] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring enabled, reporting results every 2 minutes.
+[0] 2026-02-10T00:39:05.102+03:00  WARN 21532 --- [Lavalink] [           main] l.s.config.AudioPlayerConfiguration      : The default Youtube source is now deprecated and won't receive further updates.
+[0] You should use the new Youtube source plugin instead.
+[0] https://github.com/lavalink-devs/youtube-source#plugin.
+[0] To disable this warning, set 'lavalink.server.sources.youtube' to false in your application.yml.
+[0] WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+[0] WARNING: sun.misc.Unsafe::allocateMemory has been called by io.netty.util.internal.PlatformDependent0$2 (jar:file:/C:/Users/Qylent/Desktop/YOUTUBE/M�zik%20Bot/Lavalink.jar!/BOOT-INF/lib/netty-common-4.1.112.Final.jar!/)
+[0] WARNING: Please consider reporting this to the maintainers of class io.netty.util.internal.PlatformDependent0$2
+[0] WARNING: sun.misc.Unsafe::allocateMemory will be removed in a future release
+[0] 2026-02-10T00:39:05.765+03:00  INFO 21532 --- [Lavalink] [           main] l.server.config.KoeConfiguration         : OS: WINDOWS, Arch: X86_64
+[0] 2026-02-10T00:39:05.765+03:00  INFO 21532 --- [Lavalink] [           main] l.server.config.KoeConfiguration         : Enabling JDA-NAS
+[0] 2026-02-10T00:39:05.768+03:00  INFO 21532 --- [Lavalink] [           main] c.s.l.c.natives.NativeLibraryLoader      : Native library udpqueue: loading with filter null
+[0] WARNING: A restricted method in java.lang.System has been called
+[0] WARNING: java.lang.System::load has been called by com.sedmelluq.lava.common.natives.NativeLibraryLoader in an unnamed module (jar:file:/C:/Users/Qylent/Desktop/YOUTUBE/M�zik%20Bot/Lavalink.jar!/BOOT-INF/lib/lava-common-2.2.2.jar!/)
+[0] WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+[0] WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+[0] 
+[0] 2026-02-10T00:39:05.793+03:00  INFO 21532 --- [Lavalink] [           main] c.s.l.c.natives.NativeLibraryLoader      : Native library udpqueue: successfully loaded.
+[0] 2026-02-10T00:39:05.823+03:00  WARN 21532 --- [Lavalink] [           main] l.server.config.SentryConfiguration      : Turning off sentry
+[0] 2026-02-10T00:39:06.130+03:00  INFO 21532 --- [Lavalink] [           main] io.undertow                              : starting server: Undertow - 2.3.13.Final
+[0] 2026-02-10T00:39:06.148+03:00  INFO 21532 --- [Lavalink] [           main] org.xnio                                 : XNIO version 3.8.8.Final
+[0] 2026-02-10T00:39:06.157+03:00  INFO 21532 --- [Lavalink] [           main] org.xnio.nio                             : XNIO NIO Implementation Version 3.8.8.Final
+[0] 2026-02-10T00:39:06.261+03:00  INFO 21532 --- [Lavalink] [           main] org.jboss.threads                        : JBoss Threads version 3.5.0.Final
+[0] 2026-02-10T00:39:06.307+03:00  INFO 21532 --- [Lavalink] [           main] o.s.b.w.e.undertow.UndertowWebServer     : Undertow started on port 2333 (http) with context path '/'
+[0] 2026-02-10T00:39:06.315+03:00  INFO 21532 --- [Lavalink] [           main] lavalink.server.Launcher                 : Started Launcher in 2.111 seconds (process running for 4.178)
+[0] 2026-02-10T00:39:06.316+03:00  INFO 21532 --- [Lavalink] [           main] lavalink.server.Launcher                 : Lavalink is ready to accept connections.
+[0] 2026-02-10T00:41:13.125+03:00  INFO 21532 --- [Lavalink] [  XNIO-1 task-2] io.undertow.servlet                      : Initializing Spring DispatcherServlet 'dispatcherServlet'
+[0] 2026-02-10T00:41:13.127+03:00  INFO 21532 --- [Lavalink] [  XNIO-1 task-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+[0] 2026-02-10T00:41:13.128+03:00  INFO 21532 --- [Lavalink] [  XNIO-1 task-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+[0] 2026-02-10T00:41:13.185+03:00  INFO 21532 --- [Lavalink] [  XNIO-1 task-2] l.server.io.HandshakeInterceptorImpl     : Incoming connection from /[0:0:0:0:0:0:0:1]:49387
+[0] 2026-02-10T00:41:13.219+03:00  INFO 21532 --- [Lavalink] [  XNIO-1 task-2] l.server.io.RequestLoggingFilter         : GET /v4/websocket
+[0] 2026-02-10T00:41:13.325+03:00  INFO 21532 --- [Lavalink] [  XNIO-1 task-2] lavalink.server.io.SocketServer          : Connection successfully established from shoukaku/4.2.0 (https://github.com/shipgirlproject/Shoukaku.git)
+[0] 2026-02-10T00:42:26.905+03:00  INFO 21532 --- [Lavalink] [   XNIO-1 I/O-2] lavalink.server.io.SocketServer          : Connection closed from /[0:0:0:0:0:0:0:1]:49387 with id 01gebd6k84nit4qy -- CloseStatus[code=1006, reason=]
+[0] 2026-02-10T00:42:26.906+03:00  INFO 21532 --- [Lavalink] [   XNIO-1 I/O-2] lavalink.server.io.SocketContext         : Shutting down 0 playing players.
+[0] ^C2026-02-10T00:42:49.503+03:00  INFO 21532 --- [Lavalink] [ionShutdownHook] io.undertow                              : stopping server: Undertow - 2.3.13.Final
+[0] 2026-02-10T00:42:49.512+03:00  INFO 21532 --- [Lavalink] [ionShutdownHook] io.undertow.servlet                      : Destroying Spring FrameworkServlet 'dispatcherServlet'
+[0] 2026-02-10T00:42:49.514+03:00  INFO 21532 --- [Lavalink] [ionShutdownHook] c.s.d.l.tools.GarbageCollectionMonitor   : GC monitoring disabled.
+[0] java -jar Lavalink.jar exited with code 3221225786

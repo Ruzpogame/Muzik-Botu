@@ -1,0 +1,44 @@
+{
+    "name": "discord-music-bot",
+    "version": "1.0.0",
+    "description": "Advanced Discord Music Bot with Lavalink",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "keywords": [
+        "discord",
+        "music",
+        "bot",
+        "lavalink",
+        "shoukaku"
+    ],
+    "author": "Antigravity",
+    "license": "ISC",
+    "dependencies": {
+        "@discord-player/extractor": "^7.1.0",
+        "@discordjs/opus": "^0.10.0",
+        "@distube/ytdl-core": "^4.16.12",
+        "better-sqlite3": "^9.4.3",
+        "concurrently": "^9.2.1",
+        "discord-player": "^7.1.0",
+        "discord-player-youtubei": "^1.5.0",
+        "discord.js": "^14.14.1",
+        "dotenv": "^16.4.5",
+        "ffmpeg-static": "^5.3.0",
+        "glob": "^10.3.10",
+        "lyrics-finder": "^21.7.0",
+        "play-dl": "^1.9.7",
+        "youtubei.js": "^16.0.1",
+        "yt-stream": "^1.7.4"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.0"
+    },
+    "overrides": {
+        "discord-player-youtubei": {
+            "youtubei.js": "$youtubei.js"
+        }
+    }
+}
