@@ -124,17 +124,17 @@ module.exports = {
             session.currentStationId = station.id;
             // Ensure we catch potential errors if replying to already replied interaction
             if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, ephemeral: true });
+                await interaction.followUp({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, flags: 64 });
             } else {
-                await interaction.reply({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, ephemeral: true });
+                await interaction.reply({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, flags: 64 });
             }
             await session.playCurrentStation();
             await session.updateEmbed();
         } else {
             if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, ephemeral: true });
+                await interaction.followUp({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, flags: 64 });
             } else {
-                await interaction.reply({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, ephemeral: true });
+                await interaction.reply({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, flags: 64 });
             }
         }
     }

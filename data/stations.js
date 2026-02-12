@@ -242,6 +242,14 @@ module.exports = [
         streamUrl: 'https://n10101m.mediatriple.net/numberoneturkrap',
         logoUrl: 'https://www.numberone.com.tr/wp-content/uploads/2018/04/NR1-TURK-RAP-LOGO-2018-2.png'
     },
+    {
+        id: 'radyomars',
+        name: 'Radyo Mars',
+        frequency: '94.0',
+        category: 'Rap / Gençlik',
+        streamUrl: 'http://yayin.radyodinle.com:9400/;', // Semicolon helps Shoutcast
+        logoUrl: 'https://www.radyomars.com/assets/img/logo.png'
+    },
 
     // -------------------------------------------------------------------------
     // 📰 6. HABER / SPOR / KARIŞIK

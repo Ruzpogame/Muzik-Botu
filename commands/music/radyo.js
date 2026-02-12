@@ -20,6 +20,8 @@ module.exports = {
             return interaction.reply({ content: '❌ Radyo dinlemek için bir ses kanalında olmalısınız!', flags: 64 });
         }
 
+        await interaction.deferReply();
+
         // 2. Determine Station
         const input = interaction.options.getString('istasyon');
         let selectedStation = null;
@@ -38,8 +40,7 @@ module.exports = {
                 // Find exact
                 selectedStation = stations.find(s => parseFloat(s.frequency) === targetFreq);
 
-                // If not found, find nearest (within 0.5 range maybe? or just nearest)
-                // Prompt: "choose nearest frequency"
+                // If not found, find nearest
                 if (!selectedStation) {
                     let minDiff = Infinity;
                     let nearest = null;
@@ -51,7 +52,7 @@ module.exports = {
                             nearest = s;
                         }
                     }
-                    if (minDiff < 2.0) { // Safety margin, don't jump 88 to 100
+                    if (minDiff < 2.0) { // Safety margin
                         selectedStation = nearest;
                     }
                 }
@@ -64,15 +65,13 @@ module.exports = {
         }
 
         if (!selectedStation) {
-            return interaction.reply({ content: `❌ "**${input}**" ile eşleşen veya yakın bir radyo frekansı bulunamadı.`, flags: 64 });
+            return interaction.editReply({ content: `❌ "**${input}**" ile eşleşen veya yakın bir radyo frekansı bulunamadı.` });
         }
 
         // 3. Session Management
         if (!client.radioSessions) client.radioSessions = new Map();
 
         let session = client.radioSessions.get(interaction.guild.id);
-
-        await interaction.deferReply();
 
         if (session) {
             // Update existing session

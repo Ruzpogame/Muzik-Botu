@@ -79,6 +79,11 @@ class RadioSession {
                 requestedBy: this.client.users.cache.get(this.ownerUserId)
             });
 
+            // Enable Repeat Mode for 24/7 effect
+            if (queue) {
+                queue.setRepeatMode(1); // QueueRepeatMode.TRACK
+            }
+
             if (wasPlaying) {
                 const updatedQueue = player.nodes.get(this.guildId);
                 if (updatedQueue) updatedQueue.node.skip();
@@ -157,7 +162,7 @@ class RadioSession {
 
         const filter = (i) => {
             if (i.user.id === this.ownerUserId) return true;
-            i.reply({ content: '❌ Bu radyo panelini sadece başlatan kişi kullanabilir.', ephemeral: true });
+            i.reply({ content: '❌ Bu radyo panelini sadece başlatan kişi kullanabilir.', flags: 64 });
             return false;
         };
 

@@ -144,11 +144,15 @@ class YtdlExtractor extends BaseExtractor {
                 const child = spawn(ffmpegPath, [
                     '-re',
                     '-user_agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    '-headers', 'Icy-MetaData: 1\r\n',
                     '-reconnect', '1',
                     '-reconnect_streamed', '1',
-                    '-reconnect_delay_max', '5',
+                    '-reconnect_on_network_error', '1',
+                    '-reconnect_on_http_error', '4xx,5xx',
+                    '-reconnect_at_eof', '1',
+                    '-reconnect_delay_max', '10',
                     '-i', info.url,
-                    '-vn', // No video
+                    '-vn',
                     '-acodec', 'libmp3lame',
                     '-f', 'mp3',
                     '-ac', '2',
@@ -159,9 +163,7 @@ class YtdlExtractor extends BaseExtractor {
                 if (!child || !child.stdout) throw new Error('Failed to spawn ffmpeg');
 
                 child.stderr.on('data', (d) => {
-                    // FFmpeg logs a lot, only log errors or initial
-                    const msg = d.toString();
-                    if (msg.includes('Error') || msg.includes('Invalid')) console.error(`[ffmpeg] ${msg}`);
+                    console.log(`[ffmpeg] ${d.toString()}`); // Log everything for debug
                 });
 
                 return child.stdout;

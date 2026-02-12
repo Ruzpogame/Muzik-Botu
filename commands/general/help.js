@@ -41,7 +41,7 @@ module.exports = {
 
         collector.on('collect', (i) => {
             if (i.user.id !== interaction.user.id) {
-                return i.reply({ content: 'Bu menüyü sadece komutu kullanan kişi kullanabilir.', ephemeral: true });
+                return i.reply({ content: 'Bu menüyü sadece komutu kullanan kişi kullanabilir.', flags: 64 });
             }
 
             const category = i.values[0];
