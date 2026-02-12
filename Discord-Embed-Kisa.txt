@@ -1,0 +1,10 @@
+**📀 MÜZİK**
+`/play` şarkı veya link • `/skip` `/stop` `/pause` • `/queue` `/nowplaying` `/lyrics` • `/loop` `/shuffle` `/volume` `/clear`
+
+**📻 7/24 RADYO**
+`/radyo` — İstasyon adı veya frekans (örn. 100.0, Power, Metro). Panel: önceki/sonraki, ara, kategoriler. Türkiye + yabancı onlarca istasyon.
+
+**⚙️ GENEL**
+`/help` komut listesi • `/ayarlar` ayarlar
+
+Türkçe • Slash komutlar • YouTube & radyo stream

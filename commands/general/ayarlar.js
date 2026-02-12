@@ -22,7 +22,7 @@ module.exports = {
             return interaction.reply({ content: `✅ Log kanalı başarıyla ${channel} olarak ayarlandı.` });
         } catch (error) {
             console.error(error);
-            return interaction.reply({ content: 'Ayarlar kaydedilirken bir hata oluştu.', ephemeral: true });
+            return interaction.reply({ content: 'Ayarlar kaydedilirken bir hata oluştu.', flags: 64 });
         }
     }
 };

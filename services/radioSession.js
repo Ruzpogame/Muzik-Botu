@@ -14,11 +14,12 @@ class RadioSession {
         this.collector = null;
         this.updateInterval = null;
         this.isActive = false;
+        this._playLock = false;
     }
 
-    async start() {
+    async start(interactionOrNull = null) {
         this.isActive = true;
-        await this.playCurrentStation();
+        await this.playCurrentStation(interactionOrNull);
         await this.sendEmbed();
         this.startCollector();
         this.startUpdateInterval();
@@ -47,23 +48,33 @@ class RadioSession {
         this.client.radioSessions.delete(this.guildId);
     }
 
-    async playCurrentStation() {
+    async playCurrentStation(interactionOrNull = null) {
         if (!this.isActive) return;
+        if (this._playLock) return;
 
+        const station = stations.find(s => s.id === this.currentStationId);
+        if (!station) return;
+
+        this._playLock = true;
         try {
-            const station = stations.find(s => s.id === this.currentStationId);
-            if (!station) return;
-
-            const player = this.client.player;
-            const queue = player.nodes.get(this.guildId);
-            const wasPlaying = queue && queue.isPlaying();
-
-            if (queue) {
-                queue.tracks.clear();
+            const voiceChannel = this.client.channels.cache.get(this.voiceChannelId);
+            if (!voiceChannel) {
+                console.error('[RadioSession] Voice channel not found:', this.voiceChannelId);
+                return;
             }
 
-            // Force play radio stream
-            await player.play(this.voiceChannelId, station.streamUrl, {
+            const player = this.client.player;
+            const existingQueue = player.nodes.get(this.guildId);
+
+            if (existingQueue) {
+                try { existingQueue.setRepeatMode(0); } catch (e) { }
+                try { existingQueue.tracks.clear(); } catch (e) { }
+                try { existingQueue.node.stop(); } catch (e) { }
+                try { existingQueue.delete(); } catch (e) { }
+                await new Promise(r => setTimeout(r, 450));
+            }
+
+            await player.play(voiceChannel, station.streamUrl, {
                 nodeOptions: {
                     metadata: {
                         channel: this.client.channels.cache.get(this.textChannelId),
@@ -79,13 +90,18 @@ class RadioSession {
                 requestedBy: this.client.users.cache.get(this.ownerUserId)
             });
 
-            if (wasPlaying) {
-                const updatedQueue = player.nodes.get(this.guildId);
-                if (updatedQueue) updatedQueue.node.skip();
+            const updatedQueue = player.nodes.get(this.guildId);
+            if (updatedQueue) {
+                updatedQueue.setRepeatMode(1);
             }
-
         } catch (e) {
             console.error(`[RadioSession] Play error: ${e.message}`);
+            if (interactionOrNull) {
+                const msg = `İnternetinizde ya da sitede sorun var, kendiniz kontrol etmek için: ${station.streamUrl}`;
+                await interactionOrNull.followUp({ content: msg, flags: 64 }).catch(() => {});
+            }
+        } finally {
+            this._playLock = false;
         }
     }
 
@@ -93,24 +109,27 @@ class RadioSession {
         const channel = this.client.channels.cache.get(this.textChannelId);
         if (!channel) return;
 
+        if (this.collector) {
+            this.collector.stop();
+            this.collector = null;
+        }
+
         const embed = this.createEmbed();
         const components = this.createComponents();
-
         this.message = await channel.send({ embeds: [embed], components: components });
+
+        if (this.isActive) this.startCollector();
     }
 
     async updateEmbed(interaction = null) {
-        if (!this.message) return;
-
         const embed = this.createEmbed();
-
         try {
             if (interaction && !interaction.replied && !interaction.deferred) {
                 await interaction.update({ embeds: [embed] });
-            } else {
-                await this.message.edit({ embeds: [embed] }).catch(() => { });
+            } else if (this.message) {
+                await this.message.edit({ embeds: [embed] }).catch(() => {});
             }
-        } catch (e) { }
+        } catch (e) {}
     }
 
     createEmbed() {
@@ -157,7 +176,7 @@ class RadioSession {
 
         const filter = (i) => {
             if (i.user.id === this.ownerUserId) return true;
-            i.reply({ content: '❌ Bu radyo panelini sadece başlatan kişi kullanabilir.', ephemeral: true });
+            i.reply({ content: '❌ Bu radyo panelini sadece başlatan kişi kullanabilir.', flags: 64 });
             return false;
         };
 
@@ -204,12 +223,12 @@ class RadioSession {
                                 try {
                                     if (subI.customId === 'radio_category_select') {
                                         await radioControls.handleCategorySelect(subI, this, subI.values[0]);
-                                        // Collector continues for next step
                                     } else if (subI.customId === 'radio_station_select') {
                                         await radioControls.handleStationSelect(subI, this, subI.values[0]);
                                         subCollector.stop();
                                     }
                                 } catch (e) {
+                                    if (e.code === 10062) return;
                                     console.error('[RadioSession] SubCollector Error:', e);
                                 }
                             });
@@ -217,6 +236,7 @@ class RadioSession {
                         break;
                 }
             } catch (e) {
+                if (e.code === 10062) return; // Unknown interaction (gec yanit), sessizce gec
                 console.error('[RadioSession] Collector error:', e);
             }
         });

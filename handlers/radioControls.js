@@ -6,7 +6,7 @@ async function updateRadio(session, interaction = null) {
     if (interaction && !interaction.replied && !interaction.deferred) {
         await interaction.deferUpdate().catch(() => { });
     }
-    await session.playCurrentStation();
+    await session.playCurrentStation(interaction);
     await session.updateEmbed(interaction);
 }
 
@@ -41,20 +41,22 @@ module.exports = {
 
         const input = new TextInputBuilder()
             .setCustomId('radio_search_input')
-            .setLabel('Frekans veya Radyo Adı')
+            .setLabel('Frekans veya Radyo Adi')
             .setStyle(TextInputStyle.Short)
-            .setPlaceholder('Örn: 100.0 veya Power FM')
+            .setPlaceholder('Orn: 100.0 veya Power FM')
             .setRequired(true);
 
         const row = new ActionRowBuilder().addComponents(input);
         modal.addComponents(row);
 
-        await interaction.showModal(modal);
+        await interaction.showModal(modal).catch(() => {});
     },
 
     async categories(interaction, session) {
-        const categories = [...new Set(stations.map(s => s.category))];
+        // 3 saniye kurali: once defer, sonra edit (Unknown interaction onlenir)
+        await interaction.deferReply({ flags: 64 }).catch(() => {});
 
+        const categories = [...new Set(stations.map(s => s.category))];
         const options = categories.map(cat => ({
             label: cat,
             value: cat,
@@ -63,17 +65,15 @@ module.exports = {
 
         const select = new StringSelectMenuBuilder()
             .setCustomId('radio_category_select')
-            .setPlaceholder('Bir kategori seçin')
+            .setPlaceholder('Bir kategori secin')
             .addOptions(options);
 
         const row = new ActionRowBuilder().addComponents(select);
 
-        await interaction.reply({
-            content: '📂 Lütfen bir kategori seçin:',
-            components: [row],
-            flags: 64,
-            withResponse: true
-        });
+        await interaction.editReply({
+            content: '📂 Lutfen bir kategori secin:',
+            components: [row]
+        }).catch(() => {});
 
         return await interaction.fetchReply();
     },
@@ -110,7 +110,7 @@ module.exports = {
 
         await interaction.update({ content: `✅ **${station.name}** çalınıyor!`, components: [] });
 
-        await session.playCurrentStation();
+        await session.playCurrentStation(interaction);
         await session.updateEmbed();
     },
 
@@ -122,19 +122,18 @@ module.exports = {
 
         if (station) {
             session.currentStationId = station.id;
-            // Ensure we catch potential errors if replying to already replied interaction
             if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, ephemeral: true });
+                await interaction.followUp({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, flags: 64 });
             } else {
-                await interaction.reply({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, ephemeral: true });
+                await interaction.reply({ content: `✅ **${station.name}** bulundu ve çalınıyor.`, flags: 64 });
             }
-            await session.playCurrentStation();
+            await session.playCurrentStation(interaction);
             await session.updateEmbed();
         } else {
             if (interaction.replied || interaction.deferred) {
-                await interaction.followUp({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, ephemeral: true });
+                await interaction.followUp({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, flags: 64 });
             } else {
-                await interaction.reply({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, ephemeral: true });
+                await interaction.reply({ content: `❌ "**${query}**" ile eşleşen radyo bulunamadı.`, flags: 64 });
             }
         }
     }

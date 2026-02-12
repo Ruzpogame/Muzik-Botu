@@ -242,7 +242,6 @@ module.exports = [
         streamUrl: 'https://n10101m.mediatriple.net/numberoneturkrap',
         logoUrl: 'https://www.numberone.com.tr/wp-content/uploads/2018/04/NR1-TURK-RAP-LOGO-2018-2.png'
     },
-
     // -------------------------------------------------------------------------
     // 📰 6. HABER / SPOR / KARIŞIK
     // -------------------------------------------------------------------------
@@ -331,8 +330,6 @@ module.exports = [
         name: 'BassDrive',
         frequency: 'D&B',
         category: 'Electronic / Gaming',
-        streamUrl: 'http://stream-relay-geo.ntslive.net/stream', // Fallback generic or similar
-        // Actual BassDrive:
         streamUrl: 'http://chi.bassdrive.co:8000/stream',
         logoUrl: 'https://www.bassdrive.com/assets/img/logo.png'
     },
