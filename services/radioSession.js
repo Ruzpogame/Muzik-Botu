@@ -76,6 +76,7 @@ class RadioSession {
                 leaveOnStop: false
             };
 // Sa
+//tesy
             if (queue) {
                 // Kuyrugu silme – bot kanalda kalsin. Durdur, temizle, sonra ayni node'a yeni yayin ekle.
                 queue.setRepeatMode(0);
