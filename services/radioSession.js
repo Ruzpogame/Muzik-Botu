@@ -54,41 +54,51 @@ class RadioSession {
             const station = stations.find(s => s.id === this.currentStationId);
             if (!station) return;
 
+            const voiceChannel = this.client.channels.cache.get(this.voiceChannelId);
+            if (!voiceChannel) {
+                console.error('[RadioSession] Voice channel not found:', this.voiceChannelId);
+                return;
+            }
+
             const player = this.client.player;
             let queue = player.nodes.get(this.guildId);
 
-            // Stop and delete old queue if exists
+            const nodeOptions = {
+                metadata: {
+                    channel: this.client.channels.cache.get(this.textChannelId),
+                    isRadio: true,
+                    station: station
+                },
+                selfDeaf: true,
+                volume: 80,
+                leaveOnEmpty: false,
+                leaveOnEnd: false,
+                leaveOnStop: false
+            };
+
             if (queue) {
+                // Kuyrugu silme – bot kanalda kalsin. Durdur, temizle, sonra ayni node'a yeni yayin ekle.
+                queue.setRepeatMode(0);
+                queue.tracks.clear();
                 queue.node.stop();
-                queue.delete();
+                await new Promise(r => setTimeout(r, 300));
+
+                // Mevcut node var; player.play() yeni track'i bu kuyruga ekler, bot kanaldan cikmaz
+                await player.play(voiceChannel, station.streamUrl, {
+                    nodeOptions,
+                    requestedBy: this.client.users.cache.get(this.ownerUserId)
+                });
+            } else {
+                await player.play(voiceChannel, station.streamUrl, {
+                    nodeOptions,
+                    requestedBy: this.client.users.cache.get(this.ownerUserId)
+                });
             }
 
-            // Wait a bit for cleanup
-            await new Promise(resolve => setTimeout(resolve, 100));
-
-            // Force play radio stream (creates new queue)
-            await player.play(this.voiceChannelId, station.streamUrl, {
-                nodeOptions: {
-                    metadata: {
-                        channel: this.client.channels.cache.get(this.textChannelId),
-                        isRadio: true,
-                        station: station
-                    },
-                    selfDeaf: true,
-                    volume: 80,
-                    leaveOnEmpty: false,
-                    leaveOnEnd: false,
-                    leaveOnStop: false
-                },
-                requestedBy: this.client.users.cache.get(this.ownerUserId)
-            });
-
-            // Get the new queue and enable repeat mode
             queue = player.nodes.get(this.guildId);
             if (queue) {
-                queue.setRepeatMode(1); // QueueRepeatMode.TRACK
+                queue.setRepeatMode(1);
             }
-
         } catch (e) {
             console.error(`[RadioSession] Play error: ${e.message}`);
         }
