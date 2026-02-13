@@ -78,19 +78,16 @@ module.exports = {
             // If the user provided a station, change to it
             if (input) {
                 session.currentStationId = selectedStation.id;
-                await session.playCurrentStation();
             }
-            // Move session to new channel if needed?
-            // "If same user runs /radyo again → update existing session"
+            // Move session to new channel if needed
             if (session.voiceChannelId !== memberChannel.id) {
                 session.voiceChannelId = memberChannel.id;
-                // session.start() handles joining
             }
 
             // Resend embed to new channel
             session.textChannelId = interaction.channel.id;
             await session.sendEmbed();
-            await session.playCurrentStation(); // Ensure playback in case of channel switch
+            await session.playCurrentStation();
 
             await interaction.editReply({ content: `✅ Radyo oturumu güncellendi! **${selectedStation.name}** çalınıyor.` });
         } else {

@@ -55,14 +55,18 @@ class RadioSession {
             if (!station) return;
 
             const player = this.client.player;
-            const queue = player.nodes.get(this.guildId);
-            const wasPlaying = queue && queue.isPlaying();
+            let queue = player.nodes.get(this.guildId);
 
+            // Stop and delete old queue if exists
             if (queue) {
-                queue.tracks.clear();
+                queue.node.stop();
+                queue.delete();
             }
 
-            // Force play radio stream
+            // Wait a bit for cleanup
+            await new Promise(resolve => setTimeout(resolve, 100));
+
+            // Force play radio stream (creates new queue)
             await player.play(this.voiceChannelId, station.streamUrl, {
                 nodeOptions: {
                     metadata: {
@@ -79,14 +83,10 @@ class RadioSession {
                 requestedBy: this.client.users.cache.get(this.ownerUserId)
             });
 
-            // Enable Repeat Mode for 24/7 effect
+            // Get the new queue and enable repeat mode
+            queue = player.nodes.get(this.guildId);
             if (queue) {
                 queue.setRepeatMode(1); // QueueRepeatMode.TRACK
-            }
-
-            if (wasPlaying) {
-                const updatedQueue = player.nodes.get(this.guildId);
-                if (updatedQueue) updatedQueue.node.skip();
             }
 
         } catch (e) {
